@@ -192,6 +192,7 @@ class MonthView<T extends Object?> extends StatefulWidget {
   final bool hideDaysNotInMonth;
 
   final CellDateProvider? cellTitleBuilder;
+  final EventMonthTileBuilder<T>? eventTileBuilder;
 
   /// Main [Widget] to display month view.
   const MonthView({
@@ -233,6 +234,7 @@ class MonthView<T extends Object?> extends StatefulWidget {
     this.showWeekTileBorder = true,
     this.hideDaysNotInMonth = false,
     this.cellTitleBuilder,
+    this.eventTileBuilder,
   })  : assert(!(onHeaderTitleTap != null && headerBuilder != null),
             "can't use [onHeaderTitleTap] & [headerBuilder] simultaneously"),
         super(key: key);
@@ -607,6 +609,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
         dateStringBuilder: widget.dateStringBuilder,
         hideDaysNotInMonth: hideDaysNotInMonth,
         cellTitleBuilder: widget.cellTitleBuilder,
+        eventTileBuilder: widget.eventTileBuilder,
       );
     }
     return FilledCell<T>(
@@ -623,6 +626,7 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
       onTileDoubleTap: widget.onEventDoubleTap,
       hideDaysNotInMonth: hideDaysNotInMonth,
       cellTitleBuilder: widget.cellTitleBuilder,
+      eventTileBuilder: widget.eventTileBuilder,
       titleColor: isInMonth
           ? Theme.of(context).colorScheme.onPrimaryContainer
           : Theme.of(context).colorScheme.onSurfaceVariant.withAlpha(150),
