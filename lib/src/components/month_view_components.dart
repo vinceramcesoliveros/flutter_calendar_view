@@ -2,6 +2,8 @@
 // Use of this source code is governed by a MIT-style license
 // that can be found in the LICENSE file.
 
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:flutter/material.dart';
 
 import '../calendar_event_data.dart';
@@ -116,6 +118,7 @@ class FilledCell<T extends Object?> extends StatelessWidget {
 
   /// This class will defines how cell will be displayed.
   /// This widget will display all the events as tile below date title.
+  final CellDateProvider? cellTitleBuilder;
   const FilledCell({
     Key? key,
     required this.date,
@@ -136,6 +139,7 @@ class FilledCell<T extends Object?> extends StatelessWidget {
     this.highlightedTitleColor = Constants.white,
     this.dateStringBuilder,
     this.onTileDoubleTap,
+    this.cellTitleBuilder,
   }) : super(key: key);
 
   @override
@@ -148,18 +152,20 @@ class FilledCell<T extends Object?> extends StatelessWidget {
             height: 5.0,
           ),
           if (!(!isInMonth && hideDaysNotInMonth))
-            CircleAvatar(
-              radius: highlightRadius,
-              backgroundColor:
-                  shouldHighlight ? highlightColor : Colors.transparent,
-              child: Text(
-                dateStringBuilder?.call(date) ?? "${date.day}",
-                style: TextStyle(
-                  color: shouldHighlight ? highlightedTitleColor : titleColor,
-                  fontSize: 12,
+            cellTitleBuilder?.call(date) ??
+                CircleAvatar(
+                  radius: highlightRadius,
+                  backgroundColor:
+                      shouldHighlight ? highlightColor : Colors.transparent,
+                  child: Text(
+                    dateStringBuilder?.call(date) ?? "${date.day}",
+                    style: TextStyle(
+                      color:
+                          shouldHighlight ? highlightedTitleColor : titleColor,
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
-              ),
-            ),
           if (events.isNotEmpty)
             Expanded(
               child: Container(

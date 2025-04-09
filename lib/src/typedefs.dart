@@ -55,6 +55,9 @@ typedef PageChangeCallback = void Function(
 typedef StringProvider = String Function(DateTime date,
     {DateTime? secondaryDate});
 
+typedef CellDateProvider = Widget Function(DateTime date,
+    {DateTime? secondaryDate});
+
 typedef WeekPageHeaderBuilder = Widget Function(
   DateTime startDate,
   DateTime endDate,
