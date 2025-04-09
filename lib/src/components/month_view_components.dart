@@ -119,6 +119,7 @@ class FilledCell<T extends Object?> extends StatelessWidget {
   /// This class will defines how cell will be displayed.
   /// This widget will display all the events as tile below date title.
   final CellDateProvider? cellTitleBuilder;
+  final EventMonthTileBuilder<T>? eventTileBuilder;
   const FilledCell({
     Key? key,
     required this.date,
@@ -140,6 +141,7 @@ class FilledCell<T extends Object?> extends StatelessWidget {
     this.dateStringBuilder,
     this.onTileDoubleTap,
     this.cellTitleBuilder,
+    this.eventTileBuilder,
   }) : super(key: key);
 
   @override
@@ -201,32 +203,33 @@ class FilledCell<T extends Object?> extends StatelessWidget {
                           date,
                           details,
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: events[index].color,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          margin: EdgeInsets.symmetric(
-                              vertical: 2.0, horizontal: 3.0),
-                          padding: const EdgeInsets.all(2.0),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  events[index].title,
-                                  overflow: TextOverflow.clip,
-                                  maxLines: 1,
-                                  style: events[index].titleStyle ??
-                                      TextStyle(
-                                        color: events[index].color.accent,
-                                        fontSize: 12,
-                                      ),
-                                ),
+                        child: eventTileBuilder?.call(events[index], date) ??
+                            Container(
+                              decoration: BoxDecoration(
+                                color: events[index].color,
+                                borderRadius: BorderRadius.circular(4.0),
                               ),
-                            ],
-                          ),
-                        ),
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 3.0),
+                              padding: const EdgeInsets.all(2.0),
+                              alignment: Alignment.center,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      events[index].title,
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 1,
+                                      style: events[index].titleStyle ??
+                                          TextStyle(
+                                            color: events[index].color.accent,
+                                            fontSize: 12,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                       ),
                     ),
                   ),
