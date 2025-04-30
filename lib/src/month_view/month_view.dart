@@ -193,6 +193,8 @@ class MonthView<T extends Object?> extends StatefulWidget {
 
   final CellDateProvider? cellTitleBuilder;
   final EventMonthTileBuilder<T>? eventTileBuilder;
+  final Color? Function(DateTime date, bool isToday, bool isInMonth)?
+      cellBackgroundColorBuilder;
 
   /// Main [Widget] to display month view.
   const MonthView({
@@ -200,6 +202,7 @@ class MonthView<T extends Object?> extends StatefulWidget {
     this.showBorder = true,
     this.borderColor = Constants.defaultBorderColor,
     this.cellBuilder,
+    this.cellBackgroundColorBuilder,
     this.minMonth,
     this.maxMonth,
     this.controller,
@@ -587,17 +590,18 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
 
   /// Default cell builder. Used when [widget.cellBuilder] is null
   Widget _defaultCellBuilder(
-    date,
+    DateTime date,
     List<CalendarEventData<T>> events,
-    isToday,
-    isInMonth,
-    hideDaysNotInMonth,
+    bool isToday,
+    bool isInMonth,
+    bool hideDaysNotInMonth,
   ) {
     if (hideDaysNotInMonth) {
       return FilledCell<T>(
         date: date,
         shouldHighlight: isToday,
-        backgroundColor: isInMonth ? Constants.white : Constants.offWhite,
+        backgroundColor:
+            widget.cellBackgroundColorBuilder?.call(date, isToday, isInMonth),
         events: events,
         isInMonth: isInMonth,
         onTileTap: widget.onEventTap,
@@ -615,7 +619,8 @@ class MonthViewState<T extends Object?> extends State<MonthView<T>> {
     return FilledCell<T>(
       date: date,
       shouldHighlight: isToday,
-      backgroundColor: isInMonth ? Constants.white : Constants.offWhite,
+      backgroundColor:
+          widget.cellBackgroundColorBuilder?.call(date, isToday, isInMonth),
       events: events,
       onTileTap: widget.onEventTap,
       onTileLongTap: widget.onEventLongTap,

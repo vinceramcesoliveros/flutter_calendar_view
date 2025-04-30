@@ -72,7 +72,7 @@ class FilledCell<T extends Object?> extends StatelessWidget {
   final bool shouldHighlight;
 
   /// Defines background color of cell.
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// Defines highlight color.
   final Color highlightColor;
@@ -125,7 +125,7 @@ class FilledCell<T extends Object?> extends StatelessWidget {
     this.isInMonth = false,
     this.hideDaysNotInMonth = true,
     this.shouldHighlight = false,
-    this.backgroundColor = Colors.blue,
+    this.backgroundColor,
     this.highlightColor = Colors.blue,
     this.onTileTap,
     this.onTileLongTap,
